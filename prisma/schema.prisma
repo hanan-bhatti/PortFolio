@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "mongodb"
+}
+
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         String   @default("USER") // ADMIN or USER
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Post {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  slug            String   @unique
+  contentHTML     String
+  contentMarkdown String
+  isPublished     Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  stack       String[]
+  category    String   // Web, C++, Android, C#
+  repoUrl     String?
+  liveUrl     String?
+  imageUrl    String?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Skill {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  category   String   // Frontend, Backend, Tools, Languages
+  level      Int      // 1 to 100 for proficiency
+  icon       String?  // Class name or URL for the icon
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Session {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionId       String   @unique // Cookie based ID
+  firstVisit      DateTime @default(now())
+  lastActive      DateTime @updatedAt
+  themePreference String   @default("dark")
+  pageViews       PageView[]
+}
+
+model PageView {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  path      String
+  referrer  String?
+  visitedAt DateTime @default(now())
+  userAgent String?
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String   @db.ObjectId
+}
