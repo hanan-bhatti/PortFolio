@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vibe Coder OS Portfolio
 
-## Getting Started
+A high-fidelity, interactive desktop environment built with Next.js, featuring a retro skeuomorphic design, a full window management system, and integrated portfolio applications.
 
-First, run the development server:
+## 🖥️ Core OS Environment
+The "Desktop" serves as the main interface, featuring:
+- **Skewmorphic UI**: Authentic Windows 95/classic MacOS aesthetic.
+- **Global Window Manager**: Custom Zustand-powered store handling multi-app states.
+- **Desktop Icons**: Draggable icons linked to system applications and folders.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Native Applications
+- **Terminal**: Shell simulation with filesystem navigation.
+- **File Explorer**: Skewmorphic virtual filesystem browser.
+- **Portfolio Browser**: Retro viewer for "About", "Projects", and "Blog".
+- **Vibe Chess**: Fully playable chess game logic.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔐 Secure Administration
+- **Retro Login**: Secured by NextAuth.js.
+- **Hybrid Editor**: TipTap-based editor supporting Visual (Rich Text) and Source (Markdown/HTML) modes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📊 Vibe Tracking
+- Custom visitor session tracking using secure cookies and Prisma 7.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Technical Stack
+- **Framework**: Next.js 16 (Turbopack)
+- **Styling**: Tailwind CSS 4
+- **Database**: MongoDB via Prisma 7
+- **State**: Zustand
+- **Motion**: Framer Motion
 
-## Learn More
+## 🚀 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository.
+2. Install dependencies: `npm install`
+3. Configure `.env` (see `.env.example`).
+4. Run development server: `npm run dev`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## ⚖️ License
+GPL-3.0-only
