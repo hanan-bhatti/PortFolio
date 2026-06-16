@@ -8,6 +8,68 @@ interface TerminalLine {
     content: string;
 }
 
+interface CommandContext {
+    args: string[];
+    currentPath: string;
+    setCurrentPath: (path: string) => void;
+    setHistory: React.Dispatch<React.SetStateAction<TerminalLine[]>>;
+}
+
+type CommandHandler = (ctx: CommandContext) => void;
+
+const COMMANDS: Record<string, CommandHandler> = {
+    help: ({ setHistory }) => {
+        setHistory(prev => [...prev, { type: 'output', content: 'Available commands: HELP, LS, CD, WHOAMI, CLEAR, DATE, CAT, EXIT' }]);
+    },
+    ls: ({ currentPath, setHistory }) => {
+        const node = VIBE_FS[currentPath];
+        if (node && node.type === 'folder' && node.children) {
+            const childrenList = node.children || [];
+            setHistory(prev => [...prev, { type: 'output', content: childrenList.join('    ') }]);
+        }
+    },
+    cd: ({ args, currentPath, setCurrentPath, setHistory }) => {
+        const target = args[1];
+        if (!target || target === '.') return;
+        if (target === '..') {
+            if (currentPath !== '/') {
+                const lastSlash = currentPath.lastIndexOf('/');
+                setCurrentPath(currentPath.substring(0, lastSlash) || '/');
+            }
+        } else {
+            const newPath = currentPath === '/' ? `/${target}` : `${currentPath}/${target}`;
+            if (VIBE_FS[newPath] && VIBE_FS[newPath].type === 'folder') {
+                setCurrentPath(newPath);
+            } else {
+                setHistory(prev => [...prev, { type: 'error', content: `Directory not found: ${target}` }]);
+            }
+        }
+    },
+    cat: ({ args, currentPath, setHistory }) => {
+        const fileName = args[1];
+        if (!fileName) {
+            setHistory(prev => [...prev, { type: 'error', content: 'Usage: CAT [filename]' }]);
+            return;
+        }
+        const filePath = currentPath === '/' ? `/${fileName}` : `${currentPath}/${fileName}`;
+        const fileNode = VIBE_FS[filePath];
+        if (fileNode && fileNode.type === 'file') {
+            setHistory(prev => [...prev, { type: 'output', content: fileNode.content || '' }]);
+        } else {
+            setHistory(prev => [...prev, { type: 'error', content: `File not found: ${fileName}` }]);
+        }
+    },
+    whoami: ({ setHistory }) => {
+        setHistory(prev => [...prev, { type: 'output', content: 'vibe-coder / hanan-bhatti' }]);
+    },
+    date: ({ setHistory }) => {
+        setHistory(prev => [...prev, { type: 'output', content: new Date().toString() }]);
+    },
+    clear: ({ setHistory }) => {
+        setHistory([]);
+    },
+};
+
 export default function Terminal() {
     const [history, setHistory] = useState<TerminalLine[]>([
         { type: 'output', content: 'Microsoft(R) Windows DOS' },
@@ -36,59 +98,11 @@ export default function Terminal() {
         const args = trimmedCmd.split(' ');
         const command = args[0].toLowerCase();
 
-        switch (command) {
-            case 'help':
-                setHistory(prev => [...prev, { type: 'output', content: 'Available commands: HELP, LS, CD, WHOAMI, CLEAR, DATE, CAT, EXIT' }]);
-                break;
-            case 'ls':
-                const node = VIBE_FS[currentPath];
-                if (node && node.type === 'folder' && node.children) {
-                    const childrenList = node.children || [];
-                    setHistory(prev => [...prev, { type: 'output', content: childrenList.join('    ') }]);
-                }
-                break;
-            case 'cd':
-                const target = args[1];
-                if (!target || target === '.') break;
-                if (target === '..') {
-                    if (currentPath !== '/') {
-                        const lastSlash = currentPath.lastIndexOf('/');
-                        setCurrentPath(currentPath.substring(0, lastSlash) || '/');
-                    }
-                } else {
-                    const newPath = currentPath === '/' ? `/${target}` : `${currentPath}/${target}`;
-                    if (VIBE_FS[newPath] && VIBE_FS[newPath].type === 'folder') {
-                        setCurrentPath(newPath);
-                    } else {
-                        setHistory(prev => [...prev, { type: 'error', content: `Directory not found: ${target}` }]);
-                    }
-                }
-                break;
-            case 'cat':
-                const fileName = args[1];
-                if (!fileName) {
-                    setHistory(prev => [...prev, { type: 'error', content: 'Usage: CAT [filename]' }]);
-                    break;
-                }
-                const filePath = currentPath === '/' ? `/${fileName}` : `${currentPath}/${fileName}`;
-                const fileNode = VIBE_FS[filePath];
-                if (fileNode && fileNode.type === 'file') {
-                    setHistory(prev => [...prev, { type: 'output', content: fileNode.content || '' }]);
-                } else {
-                    setHistory(prev => [...prev, { type: 'error', content: `File not found: ${fileName}` }]);
-                }
-                break;
-            case 'whoami':
-                setHistory(prev => [...prev, { type: 'output', content: 'vibe-coder / hanan-bhatti' }]);
-                break;
-            case 'date':
-                setHistory(prev => [...prev, { type: 'output', content: new Date().toString() }]);
-                break;
-            case 'clear':
-                setHistory([]);
-                break;
-            default:
-                setHistory(prev => [...prev, { type: 'error', content: `'${command}' is not recognized as an internal or external command, operable program or batch file.` }]);
+        const handler = COMMANDS[command];
+        if (handler) {
+            handler({ args, currentPath, setCurrentPath, setHistory });
+        } else {
+            setHistory(prev => [...prev, { type: 'error', content: `'${command}' is not recognized as an internal or external command, operable program or batch file.` }]);
         }
 
         setInput('');
