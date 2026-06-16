@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { VIBE_FS, FSNode } from '@/lib/os/fs';
 import { Folder, FileText, ChevronLeft, ChevronRight, ArrowUpLeft, HardDrive } from 'lucide-react';
-import { cn } from '@/components/os/Window';
+import { cn } from '@/lib/utils';
 
 export default function FileExplorer() {
     const [currentPath, setCurrentPath] = useState('/home/user');

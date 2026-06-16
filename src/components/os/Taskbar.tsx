@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDesktopStore, AppType } from '@/store/useDesktopStore';
 import { Terminal, Folder, Gamepad2, Globe } from 'lucide-react';
-import { cn } from '@/components/os/Window';
+import { cn } from '@/lib/utils';
 
 const APP_ICONS: Record<AppType, React.ReactNode> = {
     terminal: <Terminal className="w-5 h-5 text-black" />,
