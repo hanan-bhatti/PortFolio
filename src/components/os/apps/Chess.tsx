@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
-import { Chess } from 'chess.js';
+import { Chess, Square, Move } from 'chess.js';
 import { RefreshCw, Play, SkipBack, Info } from 'lucide-react';
 
 export default function ChessGame() {
@@ -14,7 +14,7 @@ export default function ChessGame() {
     const ValidatedChessboard = Chessboard as any;
 
     const makeAMove = useCallback(
-        (move: any) => {
+        (move: string | { from: string; to: string; promotion?: string }): Move | null => {
             try {
                 const gameCopy = new Chess(game.fen());
                 const result = gameCopy.move(move);
@@ -31,7 +31,7 @@ export default function ChessGame() {
         [game]
     );
 
-    function onDrop(sourceSquare: string, targetSquare: string) {
+    function onDrop(sourceSquare: Square, targetSquare: Square): boolean {
         const move = makeAMove({
             from: sourceSquare,
             to: targetSquare,
