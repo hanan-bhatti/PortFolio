@@ -16,10 +16,10 @@ export const prisma = globalForPrisma.prisma ?? (() => {
     const isBuild = process.env.NEXT_PHASE === 'phase-production-build' || process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL;
 
     if (isBuild) {
-        return new Proxy({} as any, {
+        return new Proxy({} as object, {
             get: (_, prop) => {
                 if (prop === 'then') return undefined; // Support async checks
-                return (...args: any[]) => {
+                return (...args: unknown[]) => {
                     console.warn(`Prisma method "${String(prop)}" called during build phase. Returning empty result.`);
                     return Promise.resolve(null);
                 };

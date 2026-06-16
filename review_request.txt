@@ -1,0 +1,1 @@
+Replacing 'any' with 'object' and 'unknown[]' in the Prisma build-time proxy to improve type safety.
