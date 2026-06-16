@@ -10,12 +10,30 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No session' }, { status: 400 });
         }
 
-        // Record the page view
+        // Basic UUID validation (v4)
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(sessionId)) {
+            return NextResponse.json({ error: 'Invalid session ID' }, { status: 400 });
+        }
+
+        // Find or create the session in the database
+        // This verifies the session exists and ensures we have a valid internal ID (ObjectId)
+        const session = await prisma.session.upsert({
+            where: { sessionId: sessionId },
+            update: { lastActive: new Date() },
+            create: {
+                sessionId: sessionId,
+                themePreference: 'dark'
+            },
+        });
+
+        // Record the page view linked to the validated session
         await prisma.pageView.create({
             data: {
                 path: path || '/',
                 referrer: referrer || '',
-                sessionId: sessionId,
+                sessionId: session.id, // Use the internal ObjectId
+                userAgent: request.headers.get('user-agent') || undefined,
             },
         });
 
