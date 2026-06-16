@@ -81,18 +81,24 @@ export default function Window({ id, children }: WindowProps) {
                     <button
                         onClick={(e) => { e.stopPropagation(); minimizeWindow(id); }}
                         className="w-5 h-5 flex items-center justify-center bg-[#c0c0c0] border-t-2 border-l-2 border-t-white border-l-white border-b-2 border-r-2 border-b-gray-800 border-r-gray-800 active:border-t-gray-800 active:border-l-gray-800 active:border-b-white active:border-r-white"
+                        aria-label="Minimize"
+                        title="Minimize"
                     >
                         <Minus className="w-3 h-3 text-black stroke-[3]" />
                     </button>
                     <button
                         onClick={(e) => { e.stopPropagation(); maximizeWindow(id); }}
                         className="w-5 h-5 flex items-center justify-center bg-[#c0c0c0] border-t-2 border-l-2 border-t-white border-l-white border-b-2 border-r-2 border-b-gray-800 border-r-gray-800 active:border-t-gray-800 active:border-l-gray-800 active:border-b-white active:border-r-white"
+                        aria-label={windowState.isMaximized ? "Restore" : "Maximize"}
+                        title={windowState.isMaximized ? "Restore" : "Maximize"}
                     >
                         <Square className="w-3 h-3 text-black stroke-[3]" />
                     </button>
                     <button
                         onClick={(e) => { e.stopPropagation(); closeWindow(id); }}
                         className="w-5 h-5 flex items-center justify-center bg-[#c0c0c0] border-t-2 border-l-2 border-t-white border-l-white border-b-2 border-r-2 border-b-gray-800 border-r-gray-800 active:border-t-gray-800 active:border-l-gray-800 active:border-b-white active:border-r-white ml-1"
+                        aria-label="Close"
+                        title="Close"
                     >
                         <X className="w-3 h-3 text-black stroke-[3]" />
                     </button>
