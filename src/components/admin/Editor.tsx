@@ -5,7 +5,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Underline from '@tiptap/extension-underline';
-import { Bold, Italic, List, ListOrdered, Quote, Undo, Redo, Link as LinkIcon, Underline as UnderlineIcon, Code, Eye, FileJson } from 'lucide-react';
+import { Bold, Italic, List, ListOrdered, Quote, Undo, Redo, Underline as UnderlineIcon, Code, Eye, FileJson } from 'lucide-react';
 
 interface EditorProps {
     initialValue?: string;
