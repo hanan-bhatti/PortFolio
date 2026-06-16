@@ -1,0 +1,27 @@
+
+> vibe-os-portfolio@1.0.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1672ms
+○ Compiling / ...
+ GET / 200 in 10.5s (compile: 9.8s, proxy.ts: 244ms, render: 464ms)
+[next-auth][warn][NEXTAUTH_URL]
+https://next-auth.js.org/warnings#nextauth_url
+[next-auth][warn][NO_SECRET]
+https://next-auth.js.org/warnings#no_secret
+ GET /api/auth/session 200 in 2.6s (compile: 2.6s, render: 53ms)
+ GET / 200 in 79ms (compile: 10ms, proxy.ts: 9ms, render: 60ms)
+ GET /api/auth/session 200 in 68ms (compile: 52ms, render: 16ms)
+ GET / 200 in 61ms (compile: 7ms, proxy.ts: 8ms, render: 47ms)
+ GET /api/auth/session 200 in 38ms (compile: 27ms, render: 12ms)

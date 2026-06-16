@@ -1,0 +1,8 @@
+1. Refactor src/components/os/apps/Chess.tsx to add proper types.
+   - Import Square and Move types from chess.js.
+   - Update makeAMove to use a specific type for the move parameter instead of any.
+   - Update onDrop parameters to use the Square type.
+2. Verify the changes.
+   - Run type checking using npx tsc --noEmit to ensure no regressions or type errors were introduced.
+3. Complete pre-commit steps to ensure proper testing, verification, review, and reflection are done.
+4. Submit the change with a descriptive commit message.

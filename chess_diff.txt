@@ -1,0 +1,83 @@
+<<<<<<< SEARCH
+import { Chessboard } from 'react-chessboard';
+import { Chess } from 'chess.js';
+import { RefreshCw, Play, SkipBack, Info } from 'lucide-react';
+
+export default function ChessGame() {
+    const [game, setGame] = useState(new Chess());
+    const [status, setStatus] = useState('White to move');
+    const [moveHistory, setMoveHistory] = useState<string[]>([]);
+
+    // Cast component to any to bypass problematic type definitions in react-chessboard
+    const ValidatedChessboard = Chessboard as any;
+
+    const makeAMove = useCallback(
+        (move: any) => {
+            try {
+                const gameCopy = new Chess(game.fen());
+                const result = gameCopy.move(move);
+                if (result) {
+                    setGame(gameCopy);
+                    setMoveHistory(prev => [...prev, result.san]);
+                    return result;
+                }
+            } catch (e) {
+                return null;
+            }
+            return null;
+        },
+        [game]
+    );
+
+    function onDrop(sourceSquare: string, targetSquare: string) {
+        const move = makeAMove({
+            from: sourceSquare,
+            to: targetSquare,
+            promotion: 'q', // always promote to queen for simplicity
+        });
+
+        if (move === null) return false;
+        return true;
+    }
+=======
+import { Chessboard } from 'react-chessboard';
+import { Chess, Square, Move } from 'chess.js';
+import { RefreshCw, Play, SkipBack, Info } from 'lucide-react';
+
+export default function ChessGame() {
+    const [game, setGame] = useState(new Chess());
+    const [status, setStatus] = useState('White to move');
+    const [moveHistory, setMoveHistory] = useState<string[]>([]);
+
+    // Cast component to any to bypass problematic type definitions in react-chessboard
+    const ValidatedChessboard = Chessboard as any;
+
+    const makeAMove = useCallback(
+        (move: string | { from: string; to: string; promotion?: string }): Move | null => {
+            try {
+                const gameCopy = new Chess(game.fen());
+                const result = gameCopy.move(move);
+                if (result) {
+                    setGame(gameCopy);
+                    setMoveHistory(prev => [...prev, result.san]);
+                    return result;
+                }
+            } catch (e) {
+                return null;
+            }
+            return null;
+        },
+        [game]
+    );
+
+    function onDrop(sourceSquare: Square, targetSquare: Square): boolean {
+        const move = makeAMove({
+            from: sourceSquare,
+            to: targetSquare,
+            promotion: 'q', // always promote to queen for simplicity
+        });
+
+        if (move === null) return false;
+        return true;
+    }
+>>>>>>> REPLACE
