@@ -134,7 +134,7 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                         <div className="flex-1 min-h-0 border border-gray-400">
-                            <HybridEditor onSave={(c) => console.log('Saved Content:', c)} />
+                            <HybridEditor />
                         </div>
                     </div>
                 );
