@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
@@ -10,14 +10,18 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No session' }, { status: 400 });
         }
 
-        // Record the page view
-        await prisma.pageView.create({
-            data: {
-                path: path || '/',
-                referrer: referrer || '',
-                sessionId: sessionId,
-            },
-        });
+        // Record the page view in the background
+        after(
+            prisma.pageView.create({
+                data: {
+                    path: path || '/',
+                    referrer: referrer || '',
+                    sessionId: sessionId,
+                },
+            }).catch(error => {
+                console.error('Background tracking error:', error);
+            })
+        );
 
         return NextResponse.json({ success: true });
     } catch (error) {
