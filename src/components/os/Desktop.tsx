@@ -43,13 +43,22 @@ export default function Desktop() {
                 {desktopIcons.map(item => (
                     <div
                         key={item.label}
-                        className="flex flex-col items-center gap-1 cursor-default w-[72px] text-center group"
+                        className="flex flex-col items-center gap-1 cursor-default w-[72px] text-center group focus-visible:outline-none"
                         onDoubleClick={() => openWindow(item.type, item.label)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                openWindow(item.type, item.label);
+                            }
+                        }}
+                        tabIndex={0}
+                        role="button"
+                        aria-label={item.label}
                     >
-                        <div className="p-1 group-active:brightness-50 group-active:contrast-150 border border-transparent group-active:border-dotted group-active:border-gray-400 group-hover:border-dotted group-hover:border-gray-200 mb-1 drop-shadow-md">
+                        <div className="p-1 group-active:brightness-50 group-active:contrast-150 border border-transparent group-active:border-dotted group-active:border-gray-400 group-hover:border-dotted group-hover:border-gray-200 group-focus-visible:border-dotted group-focus-visible:border-gray-200 mb-1 drop-shadow-md">
                             {item.icon}
                         </div>
-                        <span className="text-white text-xs bg-[#008080] px-1 group-active:bg-[#000080] group-hover:bg-[#000080] leading-tight">
+                        <span className="text-white text-xs bg-[#008080] px-1 group-active:bg-[#000080] group-hover:bg-[#000080] group-focus-visible:bg-[#000080] leading-tight">
                             {item.label}
                         </span>
                     </div>

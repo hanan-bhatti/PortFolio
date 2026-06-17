@@ -46,7 +46,10 @@ export default function Taskbar() {
                 {/* 'Start' Button Replica */}
                 <button
                     className="h-full px-2 font-bold text-black flex items-center gap-2 bg-[#c0c0c0] border-t-2 border-l-2 border-t-white border-l-white border-b-2 border-r-2 border-b-gray-600 border-r-gray-600 active:border-t-gray-600 active:border-l-gray-600 active:border-b-white active:border-r-white mr-2"
+                    aria-label="Start menu"
+                    title="Start"
                 >
+
                     <div className="flex gap-[1px]">
                         <div className="w-2 h-2 bg-red-500"></div>
                         <div className="w-2 h-2 bg-green-500"></div>
@@ -73,7 +76,10 @@ export default function Taskbar() {
                                     ? "bg-[#d4d0c8] border-t-2 border-l-2 border-t-gray-800 border-l-gray-800 border-b-2 border-r-2 border-b-white border-r-white bg-grid-pattern"
                                     : "bg-[#c0c0c0] border-t-2 border-l-2 border-t-white border-l-white border-b-2 border-r-2 border-b-gray-600 border-r-gray-600"
                             )}
+                            aria-pressed={isActive}
+                            aria-label={`Switch to ${win.title}`}
                         >
+
                             {APP_ICONS[win.appType]}
                             <span className="truncate">{win.title}</span>
                         </button>
